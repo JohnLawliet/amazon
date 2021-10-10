@@ -1,0 +1,19 @@
+1. if an external src of a link is given in nextjs Image then it has to be added to whitelist via next.config.js
+module.exports = {
+    images: {
+        domains: ['links.papareact.com','fakestoreapi.com']
+    }
+}
+
+2.  Product feed UI
+    -   Grid is better for cases where products are to be mapped
+    -   use array.slice() to alter grid design
+    -   ALSO NOTE that grid-flow-row-dense takes the space left in a row automatically.
+    -   without dense grid items do not take free space
+
+3.  Design UI
+    -   don't think about the layers first, start adding in the visible components
+
+4.  Use tailwind plugins:
+    -   require("@tailwindcss/line-clamp")
+        -   to limit the lines in a para
