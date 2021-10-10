@@ -1,4 +1,5 @@
 import Product from "../product/product.component"
+import { ProductFeedContainer } from "./productFeed.styles"
 
 // Grid is better for cases where products are to be mapped
 // use array.slice() to alter grid design
@@ -6,7 +7,7 @@ import Product from "../product/product.component"
 // without dense grid items do not take free space
 const ProductFeed = ({products}) => {
     return (
-        <div className="grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 md:-mt-52 mx-auto"> 
+        <ProductFeedContainer> 
             {
                 products
                 .slice(0,4)
@@ -59,7 +60,7 @@ const ProductFeed = ({products}) => {
                     />
                 ))
             }
-        </div>
+        </ProductFeedContainer>
     )
 }
 

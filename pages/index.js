@@ -1,9 +1,18 @@
 import Head from 'next/head'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import Banner from '../components/banner'
 import Header from '../components/header/header.component'
-import ProductFeed from '../components/productFeed'
+import ProductFeed from '../components/productFeed/proudctFeed.component'
+import { addToBasket } from '../redux/slices/basketSlice'
 
 export default function Home({products}) {
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(addToBasket(products))
+  }, [dispatch])
+
   return (
     <div>
       <Head>

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { StarIcon } from "@heroicons/react/solid"
 import NumberFormat from 'react-number-format';
+import { PrimeContainer, ProductCategory, ProductContainer, ProductDescription } from './product.styles';
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -15,8 +16,8 @@ const Product = ({title, id, price, description, category, image }) => {
     )
 
     return (
-        <div className="flex relative flex-col m-5 bg-white z-30 p-10">
-            <p className="absolute top-2 right-2 text-xs italic text-gray-400">{category}</p>
+        <ProductContainer>
+            <ProductCategory>{category}</ProductCategory>
             <Image 
                 height={200}
                 width={200}
@@ -33,23 +34,23 @@ const Product = ({title, id, price, description, category, image }) => {
             }
             </div>
             {/* line-clamp-2 is from a plugin. It shows only no. of lines given*/}
-            <p className="my-2 text-xs line-clamp-2">{description}</p>
+            <ProductDescription>{description}</ProductDescription>
             <div className="mb-5">
                 <NumberFormat value={price} displayType={'text'} thousandSeparator={true} prefix={'$'} />
             </div>
             {
                 hasPrime && (
-                    <div className="items-center flex space-x-2 -mt-5">
+                    <PrimeContainer>
                         <img className="w-12" src="https://links.papareact.com/fdw" alt="amazon prime" />
                         <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
-                    </div>
+                    </PrimeContainer>
                 )
             }    
             
             <button className="button mt-auto">
                 Add to Basket
             </button>
-        </div>
+        </ProductContainer>
     )
 }
 

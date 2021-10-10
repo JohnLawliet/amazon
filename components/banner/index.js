@@ -1,11 +1,12 @@
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { BannerContainer, CarouselBottomFadeEffect } from "./banner.styles";
 
 const Banner = () => {
     return (
-        <main className="max-w-screen-2xl mx-auto">
+        <BannerContainer>
             <div className="relative">
-                <div className="absolute w-full h-32 bg-gradient-to-t from-white to-transparent bottom-0 z-20"></div>
+                <CarouselBottomFadeEffect></CarouselBottomFadeEffect>
                 <Carousel 
                     autoPlay
                     infiniteLoop
@@ -24,9 +25,8 @@ const Banner = () => {
                         <img src="https://links.papareact.com/7ma" alt="fook" />
                     </div>                
                 </Carousel>
-            </div>
-            
-        </main>
+            </div>            
+        </BannerContainer>
     )
 }
 
