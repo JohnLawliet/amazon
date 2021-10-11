@@ -1,12 +1,16 @@
+import { useSession } from 'next-auth/client'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import NumberFormat from 'react-number-format'
 import { useSelector } from 'react-redux'
 import CheckoutProduct from '../../components/checkout-product/checkout-product.component'
 import { selectItems } from '../../redux/slices/basketSlice'
 
 const CheckoutPage = () => {
     const items = useSelector(selectItems)
-    const total = items.reduce((acc, item) => (item.quantity * item.price) + acc, 0)
+    const [session] = useSession()
+    const totalPrice = items.reduce((acc, item) => (item.quantity * item.price) + acc, 0)
+    const totalItems = items.reduce((acc, item) => item.quantity + acc, 0)
     // const [updatedItems, setUpdatedItems] = useState([])
 
     // const checkQty = () => {
@@ -47,7 +51,6 @@ const CheckoutPage = () => {
                             items.length === 0 ? 'Your Amazon Cart is empty.' : 'Shopping Cart'
                         }
                         </h1>
-                        <p className="absolute hidden sm:inline bottom-0 right-1">Price</p>
                     </div>
                     {
                         items?.map(({id, description, title, rating, price, hasPrime, category, image, quantity}, i) => (
@@ -65,12 +68,31 @@ const CheckoutPage = () => {
                             />
                         ))
                     }
-                    <div className="flex justify-end border-t">
-                        <h1 className="text-xl font-semibold">Subtotal:</h1>
-                        <p className="text-xl font-semibold pl-2">${total.toFixed(2)}</p>
-                    </div>
                 </div>
             </div>
+            
+
+            <div className="flex flex-col bg-white p-10 shadow-md">
+            {items.length > 0 && (
+                <>
+                    <div className="flex justify-between">
+                        <h2 className="whitespace-nowrap">Subtotal ({totalItems}) items:
+                            <span className="font-bold">
+                                <NumberFormat value={totalPrice.toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={' $'} />
+                            </span>                            
+                        </h2>
+                    </div>
+
+                    <button 
+                    disabled={!session}
+                    className={`button mt-2 ${!session && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}>
+                    {
+                        !session? "Sign in to checkout" : "Proceed to checkout"
+                    }
+                    </button>
+                </>
+            )}
+        </div>
         </main>
     )
 }
