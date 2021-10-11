@@ -2,8 +2,17 @@ import Image from 'next/image'
 import {MenuIcon, ShoppingCartIcon} from '@heroicons/react/outline'
 import { BasketIconBadge, BasketIconField, BasketIconTitle, BottomNav, HeaderRightContainer, HeaderWrapper, LogoContainer, MenuIconContainer } from './header.styles'
 import Search from '../search/search.component'
+import { useSession, signIn, signOut } from "next-auth/client"
+import { useRouter } from 'next/dist/client/router'
+import { useSelector } from 'react-redux'
+import { selectItems } from '../../redux/slices/basketSlice'
 
 const Header = () => {
+    const [session, loading] = useSession()
+    const router = useRouter()
+    const basket_items = useSelector(selectItems)
+    const basketQty = basket_items.reduce((acc, num) => acc + num.quantity, 0)
+
     return (
         <header>
             <HeaderWrapper>
@@ -13,15 +22,20 @@ const Header = () => {
                         height={40}
                         width={150}
                         objectFit="contain"
-                        className="cursor-pointer"
+                        className="cursor-pointer" 
+                        onClick={() => router.push("/")}
                     />
                 </LogoContainer>
 
                 <Search />
 
                 <HeaderRightContainer>
-                    <div className="link">
-                        <p className="text-xs">Hello Shilu Pilu</p>
+                    <div className="link" onClick={!session ? signIn : signOut}>
+                        <p className="hover:underline">
+                        {
+                            session ? `Hello ${session.user.name}` : 'Sign In'
+                        }
+                        </p>
                         <p className="font-extrabold md:text-sm">Account & Lists</p>
                     </div>
                     
@@ -30,8 +44,10 @@ const Header = () => {
                         <p className="font-extrabold md:text-sm">& Orders</p>
                     </div>
 
-                    <BasketIconField className="link">
-                        <BasketIconBadge>0</BasketIconBadge>
+                    <BasketIconField className="link" onClick={() => router.push("/checkout")}>
+                        <BasketIconBadge>
+                            {basketQty}
+                        </BasketIconBadge>
                         <ShoppingCartIcon className="h-7 sm:h-10"/>
                         <BasketIconTitle>Basket</BasketIconTitle>
                     </BasketIconField>

@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { StarIcon } from "@heroicons/react/solid"
 import NumberFormat from 'react-number-format';
 import { PrimeContainer, ProductCategory, ProductContainer, ProductDescription } from './product.styles';
+import { useDispatch } from 'react-redux';
+import { addToBasket } from '../../redux/slices/basketSlice';
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -14,6 +16,12 @@ const Product = ({title, id, price, description, category, image }) => {
     const [hasPrime] = useState(
         Math.random() < 0.5
     )
+    const dispatch = useDispatch()
+
+    const addItemToBasket = () => {
+        const product = {title, id, price, description, category, image, hasPrime, rating }
+        dispatch(addToBasket(product))
+    }
 
     return (
         <ProductContainer>
@@ -47,7 +55,7 @@ const Product = ({title, id, price, description, category, image }) => {
                 )
             }    
             
-            <button className="button mt-auto">
+            <button className="button mt-auto" onClick={addItemToBasket}>
                 Add to Basket
             </button>
         </ProductContainer>

@@ -17,3 +17,23 @@ module.exports = {
 4.  Use tailwind plugins:
     -   require("@tailwindcss/line-clamp")
         -   to limit the lines in a para
+
+5.  Setting up google oauth:
+    -   setup firebase for the database storage
+    -   after creating oauth consent screen
+        -   create oauth credential for web application
+        -   add the firebase authDomain: "fir-80806.firebaseapp.com" to Authorized JavaScript origins section
+        -   add all http://localhosts:
+            -   http://localhost
+            -   http://localhost/5000
+            -   http://localhost/3000
+        -   add https://fir-80806.firebaseapp.com/_/auth/handler to Authorized redirect URIs
+        -   add http://localhost:3000/api/auth/callback/google
+    
+    -   What all above does is that it gives google authorization to accept requests from only those domains
+
+6.  Using next-auth
+    1.  create dir /api/auth/[...nextauth].js
+    2.  add in the next-auth/client's signIn, signOut and useSession wherever necessary
+    3.  [...nextauth].js would contain all the required providers and can also have email, pswd authentication
+    4.  in _app.js, add the Provider for session 

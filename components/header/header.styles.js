@@ -18,7 +18,7 @@ relative flex items-center
 `
 
 export const BasketIconBadge = tw.span`
-absolute top-0 right-0 h-3 w-3  bg-yellow-400 text-center rounded-full text-black font-bold
+absolute -top-1 right-0 h-3 w-3  bg-yellow-400 text-center rounded-full text-black font-bold text-[10px] pb-4
 sm:h-4 sm:w-4
 md:right-10 
 `
