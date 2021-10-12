@@ -66,3 +66,4 @@ module.exports = {
             3.  copy the downloaded json file to root and rename to permissions.json    
                 -   this is required to authorize backend to perform as the admin for the firebase in backend
         -   after session checkout is completed send firebase new data (from fulfillOrder funtion) to stripe
+        -   result from webhook is saved to db which can be used therafter in orders page

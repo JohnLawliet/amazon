@@ -26,7 +26,7 @@ const ProductFeed = ({products}) => {
             }
             <div className="relative md:col-span-full mx-auto">
                 <Image 
-                    src="https:/links.papareact.com/dyz"
+                    src="/product.jpg"
                     alt="ad image"
                     width={1600}
                     height={250}
