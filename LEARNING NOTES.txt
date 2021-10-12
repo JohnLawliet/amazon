@@ -37,3 +37,32 @@ module.exports = {
     2.  add in the next-auth/client's signIn, signOut and useSession wherever necessary
     3.  [...nextauth].js would contain all the required providers and can also have email, pswd authentication
     4.  in _app.js, add the Provider for session 
+    5.  For production:
+        -   add env keys to vercel
+        -   add the vercel given domain name to cloud.google oauth URI and javascript authorization 
+
+7.  SEO:
+    1.  add role="link" attr wherever necessary
+
+8.  Using Stripe:
+    -   concept:
+        1.  User clicks on checkout button
+        2.  gets redirected to built in stripe page
+        3.  stripe uses webhooks to forward submitted data 
+            -   depends on the success_url and cancel_url
+        4.  redirects back to domain/success
+    1.  import {loadStripe} from '@stripe/stripe-js in checkout page
+    2.  create the api create-checkout-session.js
+    3.  redirect user to checkout page
+    4.  stripe cli
+        -   install stripe cli
+        -   stripe.exe login -> choose active stripe account
+        -   stripe.exe listen --forward-to localhost:3000/api/webhook -> this will forward all webhoooks to given localhost uri
+        -   copy the secret key to env file
+    5.  Using stripe with firebase
+        -   webhooks are required to send events from stripe to firebase that contain session info from create checkout session
+            1.  npm i micro firebase-admin
+            2.  in firebase console, go to project settings -> service accounts
+            3.  copy the downloaded json file to root and rename to permissions.json    
+                -   this is required to authorize backend to perform as the admin for the firebase in backend
+        -   after session checkout is completed send firebase new data (from fulfillOrder funtion) to stripe

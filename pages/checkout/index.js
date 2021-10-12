@@ -1,39 +1,35 @@
 import { useSession } from 'next-auth/client'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import { useSelector } from 'react-redux'
 import CheckoutProduct from '../../components/checkout-product/checkout-product.component'
 import { selectItems } from '../../redux/slices/basketSlice'
+import {loadStripe} from '@stripe/stripe-js'
+import axios from 'axios'
+
+const stripePromise = loadStripe(process.env.stripe_public_key)
 
 const CheckoutPage = () => {
     const items = useSelector(selectItems)
     const [session] = useSession()
     const totalPrice = items.reduce((acc, item) => (item.quantity * item.price) + acc, 0)
     const totalItems = items.reduce((acc, item) => item.quantity + acc, 0)
-    // const [updatedItems, setUpdatedItems] = useState([])
-
-    // const checkQty = () => {
-    //     let new_items = []
-    //     items.forEach(item => {
-    //         let quantity = items.filter(i => item.id === i.id).length
-
-    //         if (!new_items.find(i => i.id === item.id)) {
-    //             new_items.push({
-    //                 ...item,
-    //                 quantity
-    //             })
-    //         }                
-    //     })
-    //     return (new_items)
-    // }
-
-    // useEffect(() => {
-    //     const newList = checkQty()
-    //     setUpdatedItems(newList)
-    // }, [setUpdatedItems])
     
-    console.log("items : ",items)
+    const createCheckoutSession = async () => {
+        // async load a key from stripe
+        const stripe = await stripePromise
+        const checkoutSession = await axios.post('/api/create-checkout-session', {
+            items,
+            email:session.user.email
+        })
+
+        // Redirect user/cusstomer to Stripe checkout
+        const result = await stripe.redirectToCheckout({
+            sessionId: checkoutSession.data.id
+        })
+
+        if (result.error) alert(result.error.message)
+    }
 
     return (
         <main className="bg-gray-100 lg:flex max-w-screen-2xl mx-auto">
@@ -84,6 +80,8 @@ const CheckoutPage = () => {
                     </div>
 
                     <button 
+                    onClick={createCheckoutSession}
+                    role="link"
                     disabled={!session}
                     className={`button mt-2 ${!session && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}>
                     {
