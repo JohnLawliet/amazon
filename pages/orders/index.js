@@ -5,7 +5,7 @@ import db from "../../firebase"
 
 
 const Orders = ({ orders, session }) => {
-    console.log("ORDER PAGE : ",orders)
+     console.log("ORDER PAGE : ",orders)
     return (
         <main className="max-w-screen-lg flex flex-col mx-auto p-10">
             <div>
