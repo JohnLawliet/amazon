@@ -75,6 +75,7 @@ export async function getServerSideProps(context) {
 
     // stripe orders
     // timestamps cannot be transferred directly. The data gets lost so its recommended to convert it to UNIX value
+    // taking every order id from db and using it to fetch session data from stripe. This session data has info about the particular product in line_items key
     const orders = await Promise.all(
         stripeOrders.docs.map(async (order) => ({
             id: order.id,

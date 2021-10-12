@@ -1,5 +1,6 @@
 import Product from "../product/product.component"
 import { ProductFeedContainer } from "./productFeed.styles"
+import Image from 'next/image'
 
 // Grid is better for cases where products are to be mapped
 // use array.slice() to alter grid design
@@ -23,11 +24,14 @@ const ProductFeed = ({products}) => {
                     />
                 ))
             }
-            <img 
-                className="md:col-span-full" 
-                src="https:/links.papareact.com/dyz"
-                alt="ad image"
-            />
+            <div className="relative md:col-span-full mx-auto">
+                <Image 
+                    src="https:/links.papareact.com/dyz"
+                    alt="ad image"
+                    width={1600}
+                    height={250}
+                />
+            </div>
             <div className="md:col-span-2 ">
             {
                 products
